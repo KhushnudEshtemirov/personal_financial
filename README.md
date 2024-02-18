@@ -18,4 +18,4 @@ Finally, run project:
 pnpm run dev
 ```
 
-and the project open in http://localhost:3000
+and the project opens in http://localhost:3000
