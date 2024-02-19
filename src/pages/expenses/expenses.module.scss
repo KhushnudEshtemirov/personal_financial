@@ -1,0 +1,22 @@
+.expenses {
+  width: 100%;
+
+  &__body {
+    padding: 30px;
+    box-shadow: 0px 10px 60px rgba(226, 236, 249, 0.5);
+    border-radius: 30px;
+    background: #fff;
+  }
+
+  &__header {
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 20px;
+
+    h2 {
+      font-weight: 600;
+      font-size: 20px;
+    }
+  }
+}

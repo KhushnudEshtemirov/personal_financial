@@ -19,6 +19,20 @@
   box-sizing: border-box;
 }
 
+::-webkit-scrollbar {
+  width: 6px;
+  height: 5px;
+}
+
+::-webkit-scrollbar-thumb {
+  border-radius: 5px;
+  background-color: #c5c5c5;
+}
+
+::-webkit-scrollbar-track {
+  background-color: transparent;
+}
+
 a {
   font-weight: 500;
   color: #646cff;
@@ -75,6 +89,17 @@ button:focus-visible {
 
 .main {
   width: 80%;
+  min-height: 100vh;
+  margin-left: 20%;
+  padding: 40px;
+}
+
+:where(.ant-input-outlined).ant-input-outlined:hover {
+  border-color: #535bf2;
+}
+
+:where(.ant-input-outlined).ant-input-outlined:focus {
+  box-shadow: 0 0 0 2px #535bf234;
 }
 
 @media (prefers-color-scheme: light) {

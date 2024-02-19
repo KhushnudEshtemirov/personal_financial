@@ -5,7 +5,7 @@ import { FiSearch } from "react-icons/fi";
 
 const Header = () => (
   <div className={styles.header}>
-    <h2>Salom Khushnud 👋,</h2>
+    <h2>Hello Khushnud 👋,</h2>
     {/* <div className={styles.header__right}>
       <ul>
         <li>
