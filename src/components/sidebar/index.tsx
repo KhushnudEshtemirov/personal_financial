@@ -34,9 +34,9 @@ const Sidebar = () => {
       <div className={styles.sidebar__container}>
         <div className={styles.sidebar__top}>
           <div className={styles.sidebar__setting}>
-            <img src={logo} width={50} height={50} onClick={miniLeft} />
+            <img src={logo} width={52} height={50} onClick={miniLeft} />
           </div>
-          <span className={styles.sidebar__dashboard}>Money Control</span>
+          <span className={styles.sidebar__dashboard}>FM</span>
         </div>
         <div className={styles.sidebar__middle}>
           <ul>
