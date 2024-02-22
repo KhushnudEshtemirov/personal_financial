@@ -11,6 +11,7 @@ type InputType = {
   name: string;
   label?: string;
   required?: boolean;
+  value?: string;
 };
 
 const CustomInput = ({
@@ -21,19 +22,21 @@ const CustomInput = ({
   name,
   label,
   required,
+  value,
 }: InputType) => {
   return (
     <Form.Item
       label={label}
       name={name}
-      rules={[{ required: required, message: "Please input your username!" }]}
-      noStyle={true}
+      rules={[{ required: required, message: "Please input required field!" }]}
     >
       <Input
+        value={value}
         placeholder={placeholder}
         type={type}
         prefix={icon}
         className={`${styles.input} ${className}`}
+        autoComplete="off"
       />
     </Form.Item>
   );

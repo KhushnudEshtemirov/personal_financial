@@ -2,15 +2,177 @@
   "users": [
     {
       "id": 1,
-      "name": "John Doe",
-      "email": "john@john",
-      "password": "123456"
+      "name": "Jahongir Olimov",
+      "email": "olimov@gmail.com",
+      "password": "jahongir77"
     },
     {
       "id": 2,
-      "name": "John Doe2",
-      "email": "khushnudeshtemirov@gmail.com",
-      "password": "7777"
+      "name": "Khushnud Eshtemirov",
+      "email": "khushnud123@gmail.com",
+      "password": "777"
+    }
+  ],
+  "expenses": [
+    {
+      "id": "1",
+      "userId": 1,
+      "category": "John Brown User 1",
+      "amount": 698,
+      "date": "2024-07-17",
+      "description": "Lorem ipsum dolor sit amet consectetur adipisicing elit."
+    },
+    {
+      "id": "2",
+      "userId": 1,
+      "category": "Jim Green User 1",
+      "amount": 198,
+      "date": "2023-07-23",
+      "description": "Lorem ipsum dolor sit amet consectetur adipisicing elit."
+    },
+    {
+      "id": "3",
+      "userId": 2,
+      "category": "Joe Black User 2",
+      "amount": 698,
+      "date": "2023-08-07",
+      "description": "Lorem ipsum dolor sit amet consectetur adipisicing elit."
+    },
+    {
+      "id": "4",
+      "userId": 1,
+      "category": "Jim Red User 1",
+      "amount": 488,
+      "date": "2023-03-27",
+      "description": "Lorem ipsum dolor sit amet consectetur adipisicing elit."
+    },
+    {
+      "id": "5",
+      "userId": 2,
+      "category": "John Brown User 2",
+      "amount": 98,
+      "date": "2024-07-04",
+      "description": "Lorem ipsum dolor sit amet consectetur adipisicing elit."
+    },
+    {
+      "id": "6",
+      "userId": 2,
+      "category": "Jim Green User 2",
+      "amount": 198,
+      "date": "2023-11-17",
+      "description": "Lorem ipsum dolor sit amet consectetur adipisicing elit."
+    },
+    {
+      "id": "7",
+      "userId": 1,
+      "category": "Joe Black User 1",
+      "amount": 98,
+      "date": "2023-10-24",
+      "description": "Lorem ipsum dolor sit amet consectetur adipisicing elit."
+    },
+    {
+      "id": "8",
+      "userId": 2,
+      "category": "Jim Red User 2",
+      "amount": 388,
+      "date": "2023-08-12",
+      "description": "Lorem ipsum dolor sit amet consectetur adipisicing elit."
+    },
+    {
+      "id": "9",
+      "userId": 1,
+      "category": "John Brown User 111",
+      "amount": "345",
+      "date": "2023-07-07",
+      "description": "Lorem ipsum dolor sit amet consectetur adipisicing elit. Changed."
+    },
+    {
+      "id": "10",
+      "userId": 2,
+      "category": "Jim Green User 2",
+      "amount": 120,
+      "date": "2024-01-07",
+      "description": "Lorem ipsum dolor sit amet consectetur adipisicing elit."
+    },
+    {
+      "id": "11",
+      "userId": 1,
+      "category": "Joe Black User 1",
+      "amount": "77711",
+      "date": "2023-07-20",
+      "description": "Lorem ipsum dolor sit amet consectetur adipisicing elit."
+    },
+    {
+      "id": "12",
+      "userId": 2,
+      "category": "Jim Red User 2",
+      "amount": 288,
+      "date": "2023-09-17",
+      "description": "Lorem ipsum dolor sit amet consectetur adipisicing elit."
+    },
+    {
+      "id": "073a",
+      "category": "New Category",
+      "amount": "1200",
+      "date": "2024-02-16",
+      "description": "It's a big expense.",
+      "userId": 2
+    },
+    {
+      "id": "702b",
+      "category": "fasdfasfasfd",
+      "amount": "5345",
+      "date": "2024-02-03",
+      "description": "fdfasfafasfd",
+      "userId": 2
+    },
+    {
+      "id": "786b",
+      "category": "fasdfasfasfd",
+      "amount": "5345",
+      "date": "2024-02-03",
+      "description": "fdfasfafasfd",
+      "userId": 2
+    },
+    {
+      "id": "8e2e",
+      "category": "fsdfafasf",
+      "amount": "23423",
+      "date": "2024-02-07",
+      "description": "fsadfsfas safasfafaf",
+      "userId": 2
+    },
+    {
+      "id": "0916",
+      "category": "Most new category",
+      "amount": "5",
+      "date": "2024-02-09",
+      "description": "fdfasdf af safasfdas daf ads",
+      "userId": 2
+    },
+    {
+      "id": "b0df",
+      "category": "Yangi data",
+      "amount": "45",
+      "date": "2024-02-03",
+      "description": "fasdfasfas asf dasfadfa",
+      "userId": 2
+    },
+    {
+      "id": "344e",
+      "category": "New Category Changed",
+      "amount": "44455",
+      "date": "2024-02-23",
+      "description": "Description changed.",
+      "userId": 1
+    },
+    {
+      "id": "3ebe",
+      "category": "fasdfasfas",
+      "amount": "53245",
+      "date": "2024-02-09",
+      "description": "fasdfaf fdfadfad afafas",
+      "userId": 1
     }
   ]
 }

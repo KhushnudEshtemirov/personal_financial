@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useContext, useState } from "react";
 import { Link, useLocation } from "react-router-dom";
 
 import { SlArrowRight } from "react-icons/sl";
@@ -10,6 +10,7 @@ import { GiReceiveMoney } from "react-icons/gi";
 import styles from "./sidebar.module.scss";
 import userImg from "../../assets/images/user.png";
 import logo from "../../assets/images/logo.png";
+import { CreateAuthContext } from "../../context/AuthContext";
 
 const MenuItems = [
   { id: 0, name: "Home", icon: <TiHome />, link: "/" },
@@ -19,6 +20,7 @@ const MenuItems = [
 
 const Sidebar = () => {
   const { pathname } = useLocation();
+  const { loggedUser } = useContext(CreateAuthContext);
 
   const activePath = MenuItems.find((item) => item.link === pathname);
 
@@ -60,10 +62,17 @@ const Sidebar = () => {
               <img src={userImg} alt="user image" />
             </div>
             <div className={styles.sidebar__name}>
-              <p>Khushnud Eshtemirov</p>
-              <span>Front-end dasturchi</span>
+              <p>{loggedUser.user?.name}</p>
+              <span>{loggedUser.user?.email}</span>
             </div>
-            <div className={styles.sidebar__logout} title="Logout">
+            <div
+              className={styles.sidebar__logout}
+              title="Logout"
+              onClick={() => {
+                localStorage.removeItem("user");
+                window.location.reload();
+              }}
+            >
               <FiLogOut />
             </div>
           </div>
