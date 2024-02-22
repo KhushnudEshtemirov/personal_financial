@@ -3,6 +3,7 @@ import { FiSearch } from "react-icons/fi";
 import { FaRegTrashCan, FaPlus } from "react-icons/fa6";
 import { MdEdit } from "react-icons/md";
 import { toast } from "react-toastify";
+import Swal from "sweetalert2";
 
 import styles from "./expenses.module.scss";
 import CustomInput from "../../ui/input";
@@ -11,9 +12,9 @@ import { API } from "../../services/api";
 import { CreateAuthContext } from "../../context/AuthContext";
 import CustomButton from "../../ui/button";
 import Modal from "../../components/modal";
-import { ExpensesType } from "../../interfaces";
+import { DataType } from "../../interfaces";
 
-interface DataType {
+interface DataTypeLocale {
   key: React.Key;
   category: string;
   amount: number;
@@ -28,7 +29,7 @@ const Expenses = () => {
   const [isShowModal, setIsShowModal] = useState(false);
   const { loggedUser } = useContext(CreateAuthContext);
   const userId = loggedUser?.user?.id;
-  const [currentData, setCurrentData] = useState<ExpensesType>({
+  const [currentData, setCurrentData] = useState<DataType>({
     userId,
     category: "",
     amount: "",
@@ -36,7 +37,7 @@ const Expenses = () => {
     description: "",
   });
 
-  const columns: TableColumnsType<DataType> = [
+  const columns: TableColumnsType<DataTypeLocale> = [
     {
       title: "Category",
       dataIndex: "category",
@@ -68,12 +69,15 @@ const Expenses = () => {
         return (
           <>
             <a
-              style={{ fontSize: 22, marginRight: 10, color: "#5932ea" }}
+              style={{ fontSize: 22, marginRight: 15, color: "#5932ea" }}
               onClick={() => openUpdateModal(data)}
             >
               <MdEdit />
             </a>
-            <a style={{ fontSize: 20, color: "#d70606" }}>
+            <a
+              style={{ fontSize: 20, color: "#d70606" }}
+              onClick={() => deleteExpense(data.id)}
+            >
               <FaRegTrashCan />
             </a>
           </>
@@ -96,10 +100,13 @@ const Expenses = () => {
     setIsShowModal(true);
   };
 
-  const addNewExpense = async (data: ExpensesType) => {
+  const addNewExpense = async (data: DataType) => {
     if (userId) {
       const newData = { ...data, userId: userId };
-      const response = await API.addNewExpense(newData)
+      const response = await API.addNewExpense({
+        url: "expenses/",
+        data: newData,
+      })
         .then((res) => res.data)
         .catch((err) => toast.error(err));
 
@@ -111,15 +118,19 @@ const Expenses = () => {
     }
   };
 
-  const openUpdateModal = (data: ExpensesType) => {
+  const openUpdateModal = (data: DataType) => {
     setActionName("updateExpense");
     setCurrentData(data);
     setIsShowModal(true);
   };
 
-  const updateExpense = async (data: ExpensesType) => {
+  const updateExpense = async (data: DataType) => {
     if (data.id) {
-      const response = await API.updateExpense(data, data.id)
+      const response = await API.updateData({
+        url: "expenses/",
+        data,
+        id: data.id,
+      })
         .then((res) => res.data)
         .catch((err) => toast.error(err));
 
@@ -131,11 +142,39 @@ const Expenses = () => {
     }
   };
 
+  const deleteExpense = (id: string) => {
+    Swal.fire({
+      title: "Are you sure?",
+      text: "You won't be able to revert this!",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#3085d6",
+      cancelButtonColor: "#d33",
+      confirmButtonText: "Yes, delete it!",
+    }).then(async (result) => {
+      if (result.isConfirmed) {
+        const response = await API.deleteData({ url: "expenses/", id })
+          .then((res) => res.data)
+          .catch((err) => toast.error(err));
+
+        if (response) {
+          Swal.fire({
+            title: "Deleted!",
+            text: "The data has been deleted.",
+            icon: "success",
+          });
+
+          getExpensesData();
+        }
+      }
+    });
+  };
+
   const getExpensesData = async () => {
     if (userId) {
-      const response = await API.getAllExpensesData({ userId })
+      const response = await API.getAllData({ url: "expenses", userId })
         .then((res) =>
-          res.data.reverse().map((item: ExpensesType) => ({
+          res.data.reverse().map((item: DataType) => ({
             ...item,
             key: item.id,
           }))

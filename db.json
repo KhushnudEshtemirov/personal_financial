@@ -25,7 +25,7 @@
     {
       "id": "2",
       "userId": 1,
-      "category": "Jim Green User 1",
+      "category": "Expenses 1",
       "amount": 198,
       "date": "2023-07-23",
       "description": "Lorem ipsum dolor sit amet consectetur adipisicing elit."
@@ -33,7 +33,7 @@
     {
       "id": "3",
       "userId": 2,
-      "category": "Joe Black User 2",
+      "category": "Expenses 2",
       "amount": 698,
       "date": "2023-08-07",
       "description": "Lorem ipsum dolor sit amet consectetur adipisicing elit."
@@ -65,7 +65,7 @@
     {
       "id": "7",
       "userId": 1,
-      "category": "Joe Black User 1",
+      "category": "Expenses 1",
       "amount": 98,
       "date": "2023-10-24",
       "description": "Lorem ipsum dolor sit amet consectetur adipisicing elit."
@@ -82,7 +82,7 @@
       "id": "9",
       "userId": 1,
       "category": "John Brown User 111",
-      "amount": "345",
+      "amount": "3451",
       "date": "2023-07-07",
       "description": "Lorem ipsum dolor sit amet consectetur adipisicing elit. Changed."
     },
@@ -92,14 +92,6 @@
       "category": "Jim Green User 2",
       "amount": 120,
       "date": "2024-01-07",
-      "description": "Lorem ipsum dolor sit amet consectetur adipisicing elit."
-    },
-    {
-      "id": "11",
-      "userId": 1,
-      "category": "Joe Black User 1",
-      "amount": "77711",
-      "date": "2023-07-20",
       "description": "Lorem ipsum dolor sit amet consectetur adipisicing elit."
     },
     {
@@ -167,11 +159,197 @@
       "userId": 1
     },
     {
-      "id": "3ebe",
-      "category": "fasdfasfas",
-      "amount": "53245",
+      "id": "97e3",
+      "category": "Added new",
+      "amount": "3445",
+      "date": "2024-02-17",
+      "description": "New one",
+      "userId": 1
+    },
+    {
+      "id": "cdbf",
+      "category": "fsadfasf",
+      "amount": "34",
+      "date": "2024-02-02",
+      "description": "fasdfasf safdasfda",
+      "userId": 1
+    },
+    {
+      "id": "1f39",
+      "category": "fsdfasf fdsafas",
+      "amount": "343",
       "date": "2024-02-09",
-      "description": "fasdfaf fdfadfad afafas",
+      "description": "fsadfasdf fsdasfas",
+      "userId": 1
+    },
+    {
+      "id": "81cf",
+      "category": "fsdfasfasd fasdfas",
+      "amount": "65456",
+      "date": "2024-02-09",
+      "description": "fsfdas fasdasdfas",
+      "userId": 1
+    },
+    {
+      "id": "b5c9",
+      "category": "fsafdsaf afasfda",
+      "amount": "6456",
+      "date": "2024-02-10",
+      "description": "sdfasfdsaf sfasfdadsf",
+      "userId": 1
+    },
+    {
+      "id": "a696",
+      "category": "terwtert",
+      "amount": "2432",
+      "date": "2024-02-17",
+      "description": "fasdfaf faasfaf",
+      "userId": 1
+    }
+  ],
+  "income": [
+    {
+      "id": "1",
+      "userId": 1,
+      "category": "Income 1",
+      "amount": 698,
+      "date": "2024-07-17",
+      "description": "Lorem ipsum dolor sit amet consectetur adipisicing elit."
+    },
+    {
+      "id": "2",
+      "userId": 1,
+      "category": "Income 1",
+      "amount": 198,
+      "date": "2023-07-23",
+      "description": "Lorem ipsum dolor sit amet consectetur adipisicing elit."
+    },
+    {
+      "id": "3",
+      "userId": 2,
+      "category": "Income 2",
+      "amount": 698,
+      "date": "2023-08-07",
+      "description": "Lorem ipsum dolor sit amet consectetur adipisicing elit."
+    },
+    {
+      "id": "4",
+      "userId": 1,
+      "category": "Income 1",
+      "amount": 488,
+      "date": "2023-03-27",
+      "description": "Lorem ipsum dolor sit amet consectetur adipisicing elit."
+    },
+    {
+      "id": "5",
+      "userId": 2,
+      "category": "Income 2",
+      "amount": 98,
+      "date": "2024-07-04",
+      "description": "Lorem ipsum dolor sit amet consectetur adipisicing elit."
+    },
+    {
+      "id": "6",
+      "userId": 2,
+      "category": "Income 2",
+      "amount": 198,
+      "date": "2023-11-17",
+      "description": "Lorem ipsum dolor sit amet consectetur adipisicing elit."
+    },
+    {
+      "id": "7",
+      "userId": 1,
+      "category": "Income 1",
+      "amount": 98,
+      "date": "2023-10-24",
+      "description": "Lorem ipsum dolor sit amet consectetur adipisicing elit."
+    },
+    {
+      "id": "8",
+      "userId": 2,
+      "category": "Income 2",
+      "amount": 388,
+      "date": "2023-08-12",
+      "description": "Lorem ipsum dolor sit amet consectetur adipisicing elit."
+    },
+    {
+      "id": "9",
+      "userId": 1,
+      "category": "Income 111 changed",
+      "amount": "7171",
+      "date": "2023-07-22",
+      "description": "Lorem ipsum dolor sit amet consectetur adipisicing elit."
+    },
+    {
+      "id": "10",
+      "userId": 2,
+      "category": "Income 2",
+      "amount": 120,
+      "date": "2024-01-07",
+      "description": "Lorem ipsum dolor sit amet consectetur adipisicing elit."
+    },
+    {
+      "id": "12",
+      "userId": 2,
+      "category": "Income 2",
+      "amount": 288,
+      "date": "2023-09-17",
+      "description": "Lorem ipsum dolor sit amet consectetur adipisicing elit."
+    },
+    {
+      "id": "073a",
+      "category": "New Category",
+      "amount": "1200",
+      "date": "2024-02-16",
+      "description": "It's a big expense.",
+      "userId": 2
+    },
+    {
+      "id": "702b",
+      "category": "Income 20",
+      "amount": "5345",
+      "date": "2024-02-03",
+      "description": "fdfasfafasfd",
+      "userId": 2
+    },
+    {
+      "id": "786b",
+      "category": "Income 10",
+      "amount": "5345",
+      "date": "2024-02-03",
+      "description": "fdfasfafasfd",
+      "userId": 2
+    },
+    {
+      "id": "8e2e",
+      "category": "Income 1",
+      "amount": "23423",
+      "date": "2024-02-07",
+      "description": "fsadfsfas safasfafaf",
+      "userId": 2
+    },
+    {
+      "id": "0916",
+      "category": "Income",
+      "amount": "5",
+      "date": "2024-02-09",
+      "description": "fdfasdf af safasfdas daf ads",
+      "userId": 2
+    },
+    {
+      "id": "b0df",
+      "category": "Income data",
+      "amount": "45",
+      "date": "2024-02-03",
+      "description": "fasdfasfas asf dasfadfa",
+      "userId": 2
+    },
+    {
+      "id": "64e0",
+      "category": "New Income",
+      "amount": "1000",
+      "date": "2024-02-22",
+      "description": "New income from business.",
       "userId": 1
     }
   ]
