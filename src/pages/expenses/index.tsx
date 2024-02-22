@@ -1,10 +1,17 @@
-import { Form, Table, type TableColumnsType, type TableProps } from "antd";
+import { Form, Table, type TableColumnsType } from "antd";
 import { FiSearch } from "react-icons/fi";
-import { FaRegTrashCan } from "react-icons/fa6";
+import { FaRegTrashCan, FaPlus } from "react-icons/fa6";
 import { MdEdit } from "react-icons/md";
+import { toast } from "react-toastify";
 
-import Input from "../../ui/input";
 import styles from "./expenses.module.scss";
+import CustomInput from "../../ui/input";
+import { FormEvent, useContext, useEffect, useState } from "react";
+import { API } from "../../services/api";
+import { CreateAuthContext } from "../../context/AuthContext";
+import CustomButton from "../../ui/button";
+import Modal from "../../components/modal";
+import { ExpensesType } from "../../interfaces";
 
 interface DataType {
   key: React.Key;
@@ -14,148 +21,171 @@ interface DataType {
   description: string;
 }
 
-const columns: TableColumnsType<DataType> = [
-  {
-    title: "Category",
-    dataIndex: "category",
-    fixed: "left",
-    width: 200,
-  },
-  {
-    title: "Amount",
-    dataIndex: "amount",
-    sorter: {
-      compare: (a, b) => a.amount - b.amount,
-      multiple: 3,
-    },
-  },
-  {
-    title: "Date",
-    dataIndex: "date",
-  },
-  {
-    title: "Description",
-    dataIndex: "description",
-  },
-  {
-    title: "Action",
-    key: "operation",
-    fixed: "right",
-    width: 100,
-    render: () => {
-      return (
-        <>
-          <a style={{ fontSize: 22, marginRight: 10, color: "#6b6b6b" }}>
-            <MdEdit />
-          </a>
-          <a style={{ fontSize: 20, color: "#d70606" }}>
-            <FaRegTrashCan />
-          </a>
-        </>
-      );
-    },
-  },
-];
-
-const data: DataType[] = [
-  {
-    key: "1",
-    category: "John Brown",
-    amount: 98,
-    date: "11.07.2023",
-    description:
-      "Lorem ipsum dolor sit amet consectetur adipisicing elit. Repudiandae ad illo voluptates placeat consequatur!",
-  },
-  {
-    key: "2",
-    category: "Jim Green",
-    amount: 98,
-    date: "11.07.2023",
-    description:
-      "Lorem ipsum dolor sit amet consectetur adipisicing elit. Repudiandae ad illo voluptates placeat consequatur!",
-  },
-  {
-    key: "3",
-    category: "Joe Black",
-    amount: 98,
-    date: "11.07.2023",
-    description:
-      "Lorem ipsum dolor sit amet consectetur adipisicing elit. Repudiandae ad illo voluptates placeat consequatur!",
-  },
-  {
-    key: "4",
-    category: "Jim Red",
-    amount: 88,
-    date: "11.07.2023",
-    description:
-      "Lorem ipsum dolor sit amet consectetur adipisicing elit. Repudiandae ad illo voluptates placeat consequatur!",
-  },
-  {
-    key: "5",
-    category: "John Brown",
-    amount: 98,
-    date: "11.07.2023",
-    description:
-      "Lorem ipsum dolor sit amet consectetur adipisicing elit. Repudiandae ad illo voluptates placeat consequatur!",
-  },
-  {
-    key: "6",
-    category: "Jim Green",
-    amount: 98,
-    date: "11.07.2023",
-    description:
-      "Lorem ipsum dolor sit amet consectetur adipisicing elit. Repudiandae ad illo voluptates placeat consequatur!",
-  },
-  {
-    key: "7",
-    category: "Joe Black",
-    amount: 98,
-    date: "11.07.2023",
-    description:
-      "Lorem ipsum dolor sit amet consectetur adipisicing elit. Repudiandae ad illo voluptates placeat consequatur!",
-  },
-  {
-    key: "8",
-    category: "Jim Red",
-    amount: 88,
-    date: "11.07.2023",
-    description:
-      "Lorem ipsum dolor sit amet consectetur adipisicing elit. Repudiandae ad illo voluptates placeat consequatur!",
-  },
-];
-
 const Expenses = () => {
-  const onChange: TableProps<DataType>["onChange"] = (
-    pagination,
-    filters,
-    sorter,
-    extra
-  ) => {
-    console.log("params", pagination, filters, sorter, extra);
+  const [expensesData, setExpensesData] = useState([]);
+  const [noChangeData, setNoChangeData] = useState([]);
+  const [actionName, setActionName] = useState("updateExpense");
+  const [isShowModal, setIsShowModal] = useState(false);
+  const { loggedUser } = useContext(CreateAuthContext);
+  const userId = loggedUser?.user?.id;
+  const [currentData, setCurrentData] = useState<ExpensesType>({
+    userId,
+    category: "",
+    amount: "",
+    date: "",
+    description: "",
+  });
+
+  const columns: TableColumnsType<DataType> = [
+    {
+      title: "Category",
+      dataIndex: "category",
+      fixed: "left",
+      width: 200,
+    },
+    {
+      title: "Amount ($)",
+      dataIndex: "amount",
+      sorter: {
+        compare: (a, b) => a.amount - b.amount,
+        multiple: 3,
+      },
+    },
+    {
+      title: "Date",
+      dataIndex: "date",
+    },
+    {
+      title: "Description",
+      dataIndex: "description",
+    },
+    {
+      title: "Actions",
+      key: "operation",
+      fixed: "right",
+      width: 100,
+      render: (data) => {
+        return (
+          <>
+            <a
+              style={{ fontSize: 22, marginRight: 10, color: "#5932ea" }}
+              onClick={() => openUpdateModal(data)}
+            >
+              <MdEdit />
+            </a>
+            <a style={{ fontSize: 20, color: "#d70606" }}>
+              <FaRegTrashCan />
+            </a>
+          </>
+        );
+      },
+    },
+  ];
+
+  const handleSearch = (value: string) => {
+    setExpensesData(
+      noChangeData.filter((item: DataType) =>
+        item.category.toLowerCase().includes(value.toLowerCase())
+      )
+    );
   };
 
-  const onFinish = (values: any) => {
-    console.log("Success:", values);
+  const handleSubmit = (e: FormEvent) => {
+    setActionName("addExpense");
+    e.preventDefault();
+    setIsShowModal(true);
   };
+
+  const addNewExpense = async (data: ExpensesType) => {
+    if (userId) {
+      const newData = { ...data, userId: userId };
+      const response = await API.addNewExpense(newData)
+        .then((res) => res.data)
+        .catch((err) => toast.error(err));
+
+      if (response) {
+        setIsShowModal(false);
+        getExpensesData();
+        toast.success("Added successfully");
+      }
+    }
+  };
+
+  const openUpdateModal = (data: ExpensesType) => {
+    setActionName("updateExpense");
+    setCurrentData(data);
+    setIsShowModal(true);
+  };
+
+  const updateExpense = async (data: ExpensesType) => {
+    if (data.id) {
+      const response = await API.updateExpense(data, data.id)
+        .then((res) => res.data)
+        .catch((err) => toast.error(err));
+
+      if (response) {
+        setIsShowModal(false);
+        getExpensesData();
+        toast.success("Updated successfully");
+      }
+    }
+  };
+
+  const getExpensesData = async () => {
+    if (userId) {
+      const response = await API.getAllExpensesData({ userId })
+        .then((res) =>
+          res.data.reverse().map((item: ExpensesType) => ({
+            ...item,
+            key: item.id,
+          }))
+        )
+        .catch((err) => toast.error(err));
+      setExpensesData(response);
+      setNoChangeData(response);
+    }
+  };
+
+  useEffect(() => {
+    getExpensesData();
+  }, []);
 
   return (
     <div className={styles.expenses}>
       <div className={styles.expenses__body}>
+        <Modal
+          isShowModal={isShowModal}
+          setIsShowModal={setIsShowModal}
+          addNewExpense={addNewExpense}
+          updateExpense={updateExpense}
+          currentData={currentData}
+          actionName={actionName}
+        />
         <div className={styles.expenses__header}>
           <h2>Expenses list</h2>
+          <form onSubmit={handleSubmit} className={styles.expenses__form}>
+            <CustomButton
+              children="Add New"
+              icon={<FaPlus />}
+              htmlType="submit"
+            />
+          </form>
           <Form
             name="basic"
             labelCol={{ span: 8 }}
             wrapperCol={{ span: 16 }}
-            style={{ maxWidth: 600 }}
+            style={{
+              maxWidth: 600,
+            }}
             initialValues={{ remember: true }}
-            onFinish={onFinish}
+            onValuesChange={(e) => handleSearch(e.search)}
             autoComplete="off"
+            className={styles.expenses__antd_form}
           >
-            <Input
+            <CustomInput
               icon={<FiSearch />}
               type="text"
-              placeholder="Search..."
+              placeholder="Search by categories"
               className={styles.expenses__input}
               name="search"
               required={false}
@@ -165,8 +195,7 @@ const Expenses = () => {
         <div>
           <Table
             columns={columns}
-            dataSource={data}
-            onChange={onChange}
+            dataSource={expensesData}
             scroll={{ x: 1000 }}
           />
         </div>

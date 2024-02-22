@@ -1,0 +1,10 @@
+.button {
+  display: flex;
+  align-items: center;
+  background-color: #5932ea;
+  outline: none !important;
+
+  &:hover {
+    background-color: #7957f1 !important;
+  }
+}
