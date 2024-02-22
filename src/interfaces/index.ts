@@ -5,7 +5,7 @@ export interface IUser {
   password: string;
 }
 
-export interface ExpensesType {
+export interface DataType {
   id?: string;
   userId?: number | undefined;
   category: string;

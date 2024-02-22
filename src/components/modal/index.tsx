@@ -4,15 +4,15 @@ import { Input } from "antd";
 import styles from "./modal.module.scss";
 import CustomInput from "../../ui/input";
 import CustomButton from "../../ui/button";
-import { ExpensesType } from "../../interfaces";
+import { DataType } from "../../interfaces";
 import { useEffect } from "react";
 
 type ModalType = {
   isShowModal: boolean;
   setIsShowModal: (val: boolean) => void;
-  addNewExpense: (data: ExpensesType) => void;
-  updateExpense: (data: ExpensesType) => void;
-  currentData: ExpensesType;
+  addNewExpense: (data: DataType) => void;
+  updateExpense: (data: DataType) => void;
+  currentData: DataType;
   actionName: string;
 };
 
