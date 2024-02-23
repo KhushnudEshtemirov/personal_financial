@@ -1,18 +1,60 @@
-import { Select, Progress } from "antd";
+import { Select, Progress, Flex, Tooltip } from "antd";
 import { GoArrowUpLeft, GoArrowDownRight } from "react-icons/go";
 
 import styles from "./home.module.scss";
-import { useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { expenses_data } from "../../mockData/expenses";
 import { months, years } from "../../constants";
+import { CreateAuthContext } from "../../context/AuthContext";
+import { API } from "../../services/api";
+import { DataType } from "../../interfaces";
+import { toast } from "react-toastify";
 
 const Home = () => {
+  const { loggedUser } = useContext(CreateAuthContext);
+  const userId = loggedUser?.user?.id;
   const [activeMonthId, setActiveMonthId] = useState(0);
+  const [expensesData, setExpensesData] = useState([]);
+  const [totalExpense, setTotalExpense] = useState(0);
 
-  const handleMonthChange = (e: string) => {
-    const activeMonth = expenses_data.find((item) => item.value === e);
-    if (activeMonth) setActiveMonthId(activeMonth.id);
+  const getActiveData = (id: number) => {
+    const activeData = expensesData.filter((item: DataType) => {
+      const monthId = parseInt(item.date.split("-")[1]);
+      if (monthId === id + 1) return item;
+    });
+
+    return activeData;
   };
+
+  const handleMonthChange = (e: number) => {
+    const activeMonth = expenses_data.find((item) => item.id === e);
+    if (activeMonth) setActiveMonthId(activeMonth.id);
+
+    const totalExpense = getActiveData(e).reduce((total, data: DataType) => {
+      const amount = parseInt(data.amount);
+      return total + amount;
+    }, 0);
+
+    setTotalExpense(totalExpense);
+  };
+
+  const getExpensesData = async () => {
+    if (userId) {
+      const response = await API.getAllData({ url: "expenses", userId })
+        .then((res) =>
+          res.data.reverse().map((item: DataType) => ({
+            ...item,
+            key: item.id,
+          }))
+        )
+        .catch((err) => toast.error(err));
+      setExpensesData(response);
+    }
+  };
+
+  useEffect(() => {
+    getExpensesData();
+  }, []);
 
   return (
     <div className={styles.home}>
@@ -31,23 +73,27 @@ const Home = () => {
                   .toLocaleLowerCase()
                   .includes(input.toLocaleLowerCase())
               }
-              options={months.map((month) => ({
+              options={months.map((month, index) => ({
                 label: month,
-                value: month,
+                value: index,
               }))}
-              onChange={(e) => handleMonthChange(e)}
+              onChange={(e) => handleMonthChange(parseInt(e))}
             />
           </div>
           <div className={styles.home__right_body}>
             <div className={styles.home__white_circle}>
-              <Progress
-                type="circle"
-                size={250}
-                percent={60}
-                showInfo={false}
-                strokeColor="#fe3c3c"
-                trailColor="#10d116"
-              />
+              <Flex gap="small" wrap="wrap">
+                <Tooltip>
+                  <Progress
+                    size={250}
+                    percent={60}
+                    showInfo={false}
+                    strokeColor="#fe3c3c"
+                    success={{ percent: 30 }}
+                    type="circle"
+                  />
+                </Tooltip>
+              </Flex>
               <div className={styles.home__expenses_income}>
                 <div className={styles.home__income}>
                   <GoArrowDownRight />
@@ -55,7 +101,7 @@ const Home = () => {
                 </div>
                 <div className={styles.home__expenses}>
                   <GoArrowUpLeft />
-                  <span>$6M</span>
+                  <span>${totalExpense}</span>
                 </div>
               </div>
             </div>
