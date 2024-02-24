@@ -8,6 +8,7 @@ import styles from "./login.module.scss";
 import { API } from "../../services/api";
 import { CreateAuthContext } from "../../context/AuthContext";
 import CustomButton from "../../ui/button";
+import login from "../../assets/images/login.jpeg";
 
 const Login = () => {
   const { changeUser } = useContext(CreateAuthContext);
@@ -43,40 +44,45 @@ const Login = () => {
   return (
     <div className={styles.login}>
       <div className={styles.login__body}>
-        <div className={styles.login__header}>
-          <h2>Login</h2>
+        <div className={styles.login__image}>
+          <img src={login} alt="login" />
         </div>
-        <Form
-          name="login"
-          labelCol={{ span: 8 }}
-          wrapperCol={{ span: 16 }}
-          style={{ maxWidth: 600 }}
-          initialValues={{ remember: true }}
-          onFinish={onFinish}
-          layout="vertical"
-          autoComplete="off"
-        >
-          <CustomInput
-            type="email"
-            label="Email"
-            placeholder="Enter email"
-            className={styles.login__input}
-            name="email"
-            required={true}
-          />
-          <CustomInput
-            type="password"
-            label="Password"
-            placeholder="Enter password"
-            className={styles.login__input}
-            name="password"
-            required={true}
-          />
-
-          <div className={styles.login__button}>
-            <CustomButton children="Login" size="large" htmlType="submit" />
+        <div className={styles.login__form}>
+          <div className={styles.login__header}>
+            <h2>Login</h2>
           </div>
-        </Form>
+          <Form
+            name="login"
+            labelCol={{ span: 8 }}
+            wrapperCol={{ span: 16 }}
+            style={{ maxWidth: 600 }}
+            initialValues={{ remember: true }}
+            onFinish={onFinish}
+            layout="vertical"
+            autoComplete="off"
+          >
+            <CustomInput
+              type="email"
+              label="Email"
+              placeholder="Enter email"
+              className={styles.login__input}
+              name="email"
+              required={true}
+            />
+            <CustomInput
+              type="password"
+              label="Password"
+              placeholder="Enter password"
+              className={styles.login__input}
+              name="password"
+              required={true}
+            />
+
+            <div className={styles.login__button}>
+              <CustomButton children="Login" size="large" htmlType="submit" />
+            </div>
+          </Form>
+        </div>
       </div>
     </div>
   );
