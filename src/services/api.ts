@@ -18,7 +18,7 @@ axiosInterceptors.interceptors.request.use(
 export const API = {
   //POST
   postUserCreate: (data: IUser) => axiosInterceptors.post("users", data),
-  addNewExpense: ({ url, data }: { url: string; data: DataType }) =>
+  addNewData: ({ url, data }: { url: string; data: DataType }) =>
     axiosInterceptors.post(url, data),
 
   //GET

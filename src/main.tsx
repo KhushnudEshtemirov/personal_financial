@@ -9,12 +9,12 @@ import "./global.scss";
 import AuthContext from "./context/AuthContext.tsx";
 
 ReactDOM.createRoot(document.getElementById("root")!).render(
-  <React.StrictMode>
+  <>
     <ToastContainer autoClose={3000} />
     <AuthContext>
       <Router>
         <App />
       </Router>
     </AuthContext>
-  </React.StrictMode>
+  </>
 );

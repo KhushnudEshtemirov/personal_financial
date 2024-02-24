@@ -10,8 +10,8 @@ import { useEffect } from "react";
 type ModalType = {
   isShowModal: boolean;
   setIsShowModal: (val: boolean) => void;
-  addNewExpense: (data: DataType) => void;
-  updateExpense: (data: DataType) => void;
+  addNewData: (data: DataType) => void;
+  updateData: (data: DataType) => void;
   currentData: DataType;
   actionName: string;
 };
@@ -21,10 +21,10 @@ const { TextArea } = Input;
 const Modal = ({
   isShowModal,
   setIsShowModal,
-  addNewExpense,
+  addNewData,
   currentData,
   actionName,
-  updateExpense,
+  updateData,
 }: ModalType) => {
   const [form] = Form.useForm();
 
@@ -34,15 +34,15 @@ const Modal = ({
     description: string;
     date: string;
   }) => {
-    if (actionName === "updateExpense")
-      updateExpense({ ...data, id: currentData.id });
-    else addNewExpense(data);
+    if (actionName === "updateData")
+      updateData({ ...data, id: currentData.id });
+    else addNewData(data);
 
     form.resetFields();
   };
 
   useEffect(() => {
-    if (actionName === "updateExpense") {
+    if (actionName === "updateData") {
       form.setFieldValue("category", currentData.category);
       form.setFieldValue("amount", currentData.amount);
       form.setFieldValue("date", currentData.date);
@@ -62,7 +62,7 @@ const Modal = ({
           isShowModal ? styles.modal__body_show : ""
         }`}
       >
-        <h2 style={{ marginBottom: 20 }}>Add Expense</h2>
+        <h2 style={{ marginBottom: 20 }}>Add New Data</h2>
         <Form
           name="modal"
           layout="vertical"

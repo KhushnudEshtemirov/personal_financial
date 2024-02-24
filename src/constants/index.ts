@@ -1,6 +1,13 @@
 export const BASE_URL = "http://localhost:5000/";
 
-export const years = ["2024", "2023", "2022", "2021"];
+const currentYear = new Date().getFullYear();
+
+export let years: string[] = [];
+
+for (let i = 2022; i <= currentYear; i++) {
+  years.push(i.toString());
+}
+
 export const months = [
   "January",
   "February",
