@@ -8,12 +8,17 @@ import Swal from "sweetalert2";
 import styles from "./expenses.module.scss";
 import CustomInput from "../../ui/input";
 import { FormEvent, useContext, useEffect, useState } from "react";
-import { API } from "../../services/api";
 import { CreateAuthContext } from "../../context/AuthContext";
 import CustomButton from "../../ui/button";
 import Modal from "../../components/modal";
 import { DataType } from "../../interfaces";
 import { years } from "../../constants";
+import {
+  useAddData,
+  useDeleteData,
+  useGetAllData,
+  useUpdateData,
+} from "../../hooks/useMutationData";
 
 interface DataTypeLocale {
   key: React.Key;
@@ -93,7 +98,7 @@ const Expenses = () => {
     form.resetFields();
     setSelectedYear(year);
     setExpensesData(
-      noChangeData.filter((item: DataType) => {
+      noChangeData?.filter((item: DataType) => {
         const itemYear = item.date.split("-")[0];
         return itemYear === year;
       })
@@ -102,7 +107,7 @@ const Expenses = () => {
 
   const handleSearch = (value: string) => {
     setExpensesData(
-      noChangeData.filter((item: DataType) =>
+      noChangeData?.filter((item: DataType) =>
         item.category.toLowerCase().includes(value.toLowerCase())
       )
     );
@@ -119,18 +124,10 @@ const Expenses = () => {
   const addNewExpense = async (data: DataType) => {
     if (userId) {
       const newData = { ...data, userId: userId };
-      const response = await API.addNewData({
+      mutateAdd({
         url: "expenses/",
         data: newData,
-      })
-        .then((res) => res.data)
-        .catch((err) => toast.error(err));
-
-      if (response) {
-        setIsShowModal(false);
-        getExpensesData();
-        toast.success("Added successfully");
-      }
+      });
     }
   };
 
@@ -142,19 +139,11 @@ const Expenses = () => {
 
   const updateExpense = async (data: DataType) => {
     if (data.id) {
-      const response = await API.updateData({
+      mutateUpdate({
         url: "expenses/",
         data,
         id: data.id,
-      })
-        .then((res) => res.data)
-        .catch((err) => toast.error(err));
-
-      if (response) {
-        setIsShowModal(false);
-        getExpensesData();
-        toast.success("Updated successfully");
-      }
+      });
     }
   };
 
@@ -169,37 +158,32 @@ const Expenses = () => {
       confirmButtonText: "Yes, delete it!",
     }).then(async (result) => {
       if (result.isConfirmed) {
-        const response = await API.deleteData({ url: "expenses/", id })
-          .then((res) => res.data)
-          .catch((err) => toast.error(err));
-
-        if (response) {
-          Swal.fire({
-            title: "Deleted!",
-            text: "The data has been deleted.",
-            icon: "success",
-          });
-
-          getExpensesData();
-        }
+        mutateDelete({ url: "expenses/", id });
       }
     });
   };
 
   const getExpensesData = async () => {
     if (userId) {
-      const response = await API.getAllData({ url: "expenses", userId })
-        .then((res) =>
-          res.data.reverse().map((item: DataType) => ({
-            ...item,
-            key: item.id,
-          }))
-        )
-        .catch((err) => toast.error(err));
-      setExpensesData(response);
-      setNoChangeData(response);
+      mutate({ url: "expenses", userId });
     }
   };
+
+  const { isLoading, isError, error, mutate } = useGetAllData(
+    setExpensesData,
+    setNoChangeData
+  );
+
+  const { isLoadingAdd, isErrorAdd, errorAdd, mutateAdd } = useAddData(
+    setIsShowModal,
+    getExpensesData
+  );
+
+  const { isLoadingUpdate, isErrorUpdate, errorUpdate, mutateUpdate } =
+    useUpdateData(setIsShowModal, getExpensesData);
+
+  const { isLoadingDelete, isErrorDelete, errorDelete, mutateDelete } =
+    useDeleteData(getExpensesData);
 
   useEffect(() => {
     handleYearChange(years[years.length - 1]);
@@ -208,6 +192,14 @@ const Expenses = () => {
   useEffect(() => {
     getExpensesData();
   }, []);
+
+  if (isLoading || isLoadingAdd || isLoadingUpdate || isLoadingDelete) {
+    return <h2 className="loading">Loading...</h2>;
+  }
+
+  if (isError || isErrorAdd || isErrorUpdate || isErrorDelete) {
+    return toast.error(`${error ?? errorAdd ?? errorUpdate ?? errorDelete}`);
+  }
 
   return (
     <div className={styles.expenses}>

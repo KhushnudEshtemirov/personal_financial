@@ -6,9 +6,9 @@ import { useContext, useEffect, useState } from "react";
 import { expenses_data } from "../../mockData/expenses";
 import { months, years } from "../../constants";
 import { CreateAuthContext } from "../../context/AuthContext";
-import { API } from "../../services/api";
 import { DataType } from "../../interfaces";
 import { toast } from "react-toastify";
+import { useGetAllData } from "../../hooks/useMutationData";
 
 const calculateColorPercentage = (
   totalExpense: number,
@@ -85,31 +85,24 @@ const Home = () => {
     return { totalExp, totalInc };
   };
 
+  const { isLoading, isError, error, mutate } = useGetAllData(setExpensesData);
+
+  const {
+    isLoading: isLoadingIncome,
+    isError: isErrorIncome,
+    error: errorIncome,
+    mutate: mutateIncome,
+  } = useGetAllData(setIncomeData);
+
   const getExpensesData = async () => {
     if (userId) {
-      const response = await API.getAllData({ url: "expenses", userId })
-        .then((res) =>
-          res.data.reverse().map((item: DataType) => ({
-            ...item,
-            key: item.id,
-          }))
-        )
-        .catch((err) => toast.error(err));
-      setExpensesData(response);
+      mutate({ url: "expenses", userId });
     }
   };
 
   const getIncomeData = async () => {
     if (userId) {
-      const response = await API.getAllData({ url: "income", userId })
-        .then((res) =>
-          res.data.reverse().map((item: DataType) => ({
-            ...item,
-            key: item.id,
-          }))
-        )
-        .catch((err) => toast.error(err));
-      setIncomeData(response);
+      mutateIncome({ url: "income", userId });
     }
   };
 
@@ -146,6 +139,14 @@ const Home = () => {
   graphData.map((item) => {
     if (item.amount > maxLength) maxLength = item.amount;
   });
+
+  if (isLoading || isLoadingIncome) {
+    return <h2 className="loading">Loading...</h2>;
+  }
+
+  if (isError || isErrorIncome) {
+    return toast.error(`${error ?? errorIncome}`);
+  }
 
   return (
     <div className={styles.home}>

@@ -8,12 +8,17 @@ import Swal from "sweetalert2";
 import styles from "./income.module.scss";
 import CustomInput from "../../ui/input";
 import { FormEvent, useContext, useEffect, useState } from "react";
-import { API } from "../../services/api";
 import { CreateAuthContext } from "../../context/AuthContext";
 import CustomButton from "../../ui/button";
 import Modal from "../../components/modal";
 import { DataType } from "../../interfaces";
 import { years } from "../../constants";
+import {
+  useAddData,
+  useDeleteData,
+  useGetAllData,
+  useUpdateData,
+} from "../../hooks/useMutationData";
 
 interface DataTypeLocale {
   key: React.Key;
@@ -119,18 +124,10 @@ const Income = () => {
   const addNewIncome = async (data: DataType) => {
     if (userId) {
       const newData = { ...data, userId: userId };
-      const response = await API.addNewData({
+      mutateAdd({
         url: "income/",
         data: newData,
-      })
-        .then((res) => res.data)
-        .catch((err) => toast.error(err));
-
-      if (response) {
-        setIsShowModal(false);
-        getIncomeData();
-        toast.success("Added successfully");
-      }
+      });
     }
   };
 
@@ -142,19 +139,11 @@ const Income = () => {
 
   const updateIncome = async (data: DataType) => {
     if (data.id) {
-      const response = await API.updateData({
+      mutateUpdate({
         url: "income/",
         data,
         id: data.id,
-      })
-        .then((res) => res.data)
-        .catch((err) => toast.error(err));
-
-      if (response) {
-        setIsShowModal(false);
-        getIncomeData();
-        toast.success("Updated successfully");
-      }
+      });
     }
   };
 
@@ -169,37 +158,32 @@ const Income = () => {
       confirmButtonText: "Yes, delete it!",
     }).then(async (result) => {
       if (result.isConfirmed) {
-        const response = await API.deleteData({ url: "income/", id })
-          .then((res) => res.data)
-          .catch((err) => toast.error(err));
-
-        if (response) {
-          Swal.fire({
-            title: "Deleted!",
-            text: "Your file has been deleted.",
-            icon: "success",
-          });
-
-          getIncomeData();
-        }
+        mutateDelete({ url: "income/", id });
       }
     });
   };
 
-  const getIncomeData = async () => {
+  const getIncomeData = () => {
     if (userId) {
-      const response = await API.getAllData({ url: "income", userId })
-        .then((res) =>
-          res.data.reverse().map((item: DataType) => ({
-            ...item,
-            key: item.id,
-          }))
-        )
-        .catch((err) => toast.error(err));
-      setIncomeData(response);
-      setNoChangeData(response);
+      mutate({ url: "income", userId });
     }
   };
+
+  const { isLoading, isError, error, mutate } = useGetAllData(
+    setIncomeData,
+    setNoChangeData
+  );
+
+  const { isLoadingAdd, isErrorAdd, errorAdd, mutateAdd } = useAddData(
+    setIsShowModal,
+    getIncomeData
+  );
+
+  const { isLoadingUpdate, isErrorUpdate, errorUpdate, mutateUpdate } =
+    useUpdateData(setIsShowModal, getIncomeData);
+
+  const { isLoadingDelete, isErrorDelete, errorDelete, mutateDelete } =
+    useDeleteData(getIncomeData);
 
   useEffect(() => {
     handleYearChange(years[years.length - 1]);
@@ -208,6 +192,14 @@ const Income = () => {
   useEffect(() => {
     getIncomeData();
   }, []);
+
+  if (isLoading || isLoadingAdd || isLoadingUpdate || isLoadingDelete) {
+    return <h2 className="loading">Loading...</h2>;
+  }
+
+  if (isError || isErrorAdd || isErrorUpdate || isErrorDelete) {
+    return toast.error(`${error ?? errorAdd ?? errorUpdate ?? errorDelete}`);
+  }
 
   return (
     <div className={styles.income}>
