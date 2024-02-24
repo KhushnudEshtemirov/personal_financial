@@ -38,7 +38,9 @@ const Sidebar = () => {
           <div className={styles.sidebar__setting}>
             <img src={logo} width={52} height={50} onClick={miniLeft} />
           </div>
-          <span className={styles.sidebar__dashboard}>FM</span>
+          <span className={styles.sidebar__dashboard}>
+            Financial Management
+          </span>
         </div>
         <div className={styles.sidebar__middle}>
           <ul>
@@ -57,7 +59,10 @@ const Sidebar = () => {
           </ul>
         </div>
         <div className={styles.sidebar__bottom}>
-          <div className={styles.sidebar__user}>
+          <div
+            className={styles.sidebar__user}
+            onClick={() => console.log("Clicked")}
+          >
             <div className={styles.sidebar__user_img}>
               <img src={userImg} alt="user image" />
             </div>
