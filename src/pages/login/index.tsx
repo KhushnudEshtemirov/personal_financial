@@ -1,6 +1,7 @@
 import { useContext } from "react";
 import { Form } from "antd";
 import { toast } from "react-toastify";
+import { useMutation } from "react-query";
 
 import CustomInput from "../../ui/input";
 import styles from "./login.module.scss";
@@ -11,19 +12,33 @@ import CustomButton from "../../ui/button";
 const Login = () => {
   const { changeUser } = useContext(CreateAuthContext);
 
-  const onFinish = async (data: { email: string; password: string }) => {
-    const response = await API.getUserFilter(data)
-      .then((res) => res.data)
-      .catch((err) => toast.error(err));
-
-    if (response.length > 0) {
-      const user = { isLogged: true, user: response[0] };
-      changeUser(user);
-      localStorage.setItem("user", JSON.stringify(user));
-    } else {
-      toast.error("Email or password incorrect. Please try again.");
+  const { isLoading, isError, error, mutate } = useMutation(
+    async (data: { email: string; password: string }) =>
+      await API.getUserFilter(data).then((res) => res.data),
+    {
+      onSuccess: (data) => {
+        if (data.length > 0) {
+          const user = { isLogged: true, user: data[0] };
+          localStorage.setItem("user", JSON.stringify(user));
+          changeUser(user);
+        } else {
+          toast.error("Email or password incorrect. Please try again.");
+        }
+      },
     }
+  );
+
+  const onFinish = (data: { email: string; password: string }) => {
+    mutate(data);
   };
+
+  if (isLoading) {
+    return <h2 className="loading">Loading...</h2>;
+  }
+
+  if (isError) {
+    return toast.error(`${error}`);
+  }
 
   return (
     <div className={styles.login}>
