@@ -3,6 +3,7 @@
   height: calc(100vh - 160px);
 
   &__body {
+    height: 500px;
     display: flex;
     justify-content: space-between;
     gap: 30px;
@@ -10,6 +11,9 @@
 
   &__statistic {
     width: 50%;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
     padding: 30px;
     box-shadow: 0px 10px 60px rgba(226, 236, 249, 0.5);
     border-radius: 30px;
@@ -22,6 +26,7 @@
   }
 
   &__statistic_graph {
+    height: 100%;
     display: flex;
     justify-content: space-between;
     align-items: flex-end;
@@ -29,15 +34,17 @@
   }
 
   &__column {
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    align-items: center;
+
     &:hover,
     &.active {
       .home__outer_div {
         background: #5932ea;
         box-shadow: 0px 8px 12px rgba(135, 145, 233, 0.3);
-
-        div {
-          background: #5932ea;
-        }
       }
 
       .home__percent {
@@ -58,7 +65,6 @@
   }
 
   &__percent {
-    margin-left: 4px;
     margin-bottom: 5px;
     font-size: 14px;
     font-weight: 500;
@@ -69,17 +75,11 @@
     width: 30px;
     display: flex;
     justify-content: center;
-    border-radius: 10px;
+    align-items: flex-end;
+    border-radius: 10px 10px 0 0;
+    cursor: pointer;
     transition: 0.1s;
-    background: none;
-
-    div {
-      width: 25px;
-      background: #f2efff;
-      border-radius: 8px;
-      cursor: pointer;
-      transition: 0.1s;
-    }
+    background: #f2efff;
   }
 
   &__right_stat {
@@ -101,7 +101,7 @@
   }
 
   &__right_body {
-    margin-top: 40px;
+    margin-top: 50px;
   }
 
   &__white_circle {
