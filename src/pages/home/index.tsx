@@ -32,6 +32,7 @@ const Home = () => {
   const [totalExpense, setTotalExpense] = useState(0);
   const [totalIncome, setTotalIncome] = useState(0);
   const [selectedYear, setSelectedYear] = useState(years[years.length - 1]);
+  const [deviceSize, setDeviceSize] = useState(window.innerWidth);
   const [graphData, setGraphData] = useState<
     { amount: number; name: string }[]
   >([]);
@@ -130,9 +131,18 @@ const Home = () => {
     if (incomeData.length) calculateProfit();
   }, [incomeData, selectedYear]);
 
+  const updateDeviceSize = () => {
+    if (typeof window !== "undefined") {
+      window.addEventListener("resize", () => {
+        setDeviceSize(window.innerWidth);
+      });
+    }
+  };
+
   useEffect(() => {
     getExpensesData();
     getIncomeData();
+    updateDeviceSize();
   }, []);
 
   let maxLength = 3000;
@@ -179,7 +189,7 @@ const Home = () => {
               <Flex gap="small" wrap="wrap">
                 <Tooltip>
                   <Progress
-                    size={250}
+                    size={deviceSize > 560 ? 250 : 160}
                     percent={100}
                     showInfo={false}
                     strokeColor={calculateColorPercentage(

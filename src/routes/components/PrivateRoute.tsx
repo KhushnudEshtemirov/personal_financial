@@ -1,4 +1,4 @@
-import { FC, ReactNode, useContext } from "react";
+import { FC, ReactNode, useContext, useState } from "react";
 import { CreateAuthContext } from "../../context/AuthContext";
 import { Navigate } from "react-router-dom";
 import { routesName } from "../../constants/routes";
@@ -11,14 +11,18 @@ interface IProps {
 
 const PrivateRoute: FC<IProps> = ({ children }) => {
   const { loggedUser } = useContext(CreateAuthContext);
+  const [isShowSidebar, setIsShowSidebar] = useState(false);
 
   if (!loggedUser.isLogged) return <Navigate to={routesName.LOGIN} replace />;
 
   return (
     <>
-      <Sidebar />
+      <Sidebar
+        setIsShowSidebar={setIsShowSidebar}
+        isShowSidebar={isShowSidebar}
+      />
       <div className="main">
-        <Header />
+        <Header setIsShowSidebar={setIsShowSidebar} />
         {children}
       </div>
     </>

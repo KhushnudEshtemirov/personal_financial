@@ -67,3 +67,27 @@
     }
   }
 }
+
+@media (max-width: 770px) {
+  .modal {
+    &__body {
+      width: 70vw;
+    }
+  }
+}
+
+@media (max-width: 550px) {
+  .modal {
+    &__body {
+      width: 90vw;
+    }
+  }
+}
+
+@media (max-width: 400px) {
+  .modal {
+    &__body {
+      padding: 20px;
+    }
+  }
+}
