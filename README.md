@@ -6,7 +6,7 @@ First, install pnpm using npm:
 npm install -g pnpm
 ```
 
-Second, run below code for install node_modules:
+Second, run below code for installing packages:
 
 ```bash
 pnpm install

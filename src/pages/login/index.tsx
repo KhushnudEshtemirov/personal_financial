@@ -9,6 +9,7 @@ import { API } from "../../services/api";
 import { CreateAuthContext } from "../../context/AuthContext";
 import CustomButton from "../../ui/button";
 import login from "../../assets/images/login.jpeg";
+import Spinner from "../../components/spinner";
 
 const Login = () => {
   const { changeUser } = useContext(CreateAuthContext);
@@ -34,7 +35,7 @@ const Login = () => {
   };
 
   if (isLoading) {
-    return <h2 className="loading">Loading...</h2>;
+    return <Spinner />;
   }
 
   if (isError) {

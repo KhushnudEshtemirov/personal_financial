@@ -19,6 +19,7 @@ import {
   useGetAllData,
   useUpdateData,
 } from "../../hooks/useMutationData";
+import Spinner from "../../components/spinner";
 
 interface DataTypeLocale {
   key: React.Key;
@@ -190,7 +191,7 @@ const Expenses = () => {
   }, []);
 
   if (isLoading || isLoadingAdd || isLoadingUpdate || isLoadingDelete) {
-    return <h2 className="loading">Loading...</h2>;
+    return <Spinner />;
   }
 
   if (isError || isErrorAdd || isErrorUpdate || isErrorDelete) {

@@ -30,11 +30,11 @@ const Sidebar = ({ setIsShowSidebar, isShowSidebar }: PropsType) => {
 
   const activePath = MenuItems.find((item) => item.link === pathname);
 
-  const [isHiddenSidebar, setIsHiddenSidebar] = useState(true);
+  const [isHiddenSidebar, setIsHiddenSidebar] = useState(false);
   const [activeId, setActiveId] = useState(activePath?.id);
   const [deviceSize, setDeviceSize] = useState(window.innerWidth);
 
-  const miniLeft = () => {
+  const handleHideSidebar = () => {
     setIsHiddenSidebar(!isHiddenSidebar);
   };
 
@@ -69,7 +69,12 @@ const Sidebar = ({ setIsShowSidebar, isShowSidebar }: PropsType) => {
             onClick={() => setIsShowSidebar(false)}
           >
             <div className={styles.sidebar__setting}>
-              <img src={logo} width={52} height={50} onClick={miniLeft} />
+              <img
+                src={logo}
+                width={52}
+                height={50}
+                onClick={handleHideSidebar}
+              />
             </div>
             <span className={styles.sidebar__dashboard}>
               Financial Management
