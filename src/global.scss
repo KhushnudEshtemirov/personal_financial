@@ -77,6 +77,10 @@ button:focus-visible {
   outline: 4px auto -webkit-focus-ring-color;
 }
 
+ul {
+  list-style: none;
+}
+
 #root {
   width: 100%;
 }
@@ -121,5 +125,11 @@ button:focus-visible {
 
   button {
     background-color: #f9f9f9;
+  }
+}
+
+@media (max-width: 850px) {
+  .main {
+    padding: 30px 20px;
   }
 }

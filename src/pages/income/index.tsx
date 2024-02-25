@@ -49,8 +49,6 @@ const Income = () => {
     {
       title: "Category",
       dataIndex: "category",
-      fixed: "left",
-      width: 200,
     },
     {
       title: "Amount ($)",
@@ -71,8 +69,6 @@ const Income = () => {
     {
       title: "Actions",
       key: "operation",
-      fixed: "right",
-      width: 100,
       render: (data) => {
         return (
           <>
@@ -213,50 +209,54 @@ const Income = () => {
           actionName={actionName}
         />
         <div className={styles.income__header}>
-          <h2>Income list</h2>
-          <Select
-            showSearch
-            defaultValue={years[years.length - 1]}
-            style={{ width: 80 }}
-            optionFilterProp="children"
-            filterOption={(input, option) =>
-              (option?.label ?? "").includes(input)
-            }
-            options={years.map((year) => ({
-              label: year,
-              value: year,
-            }))}
-            onChange={(e) => handleYearChange(e)}
-          />
-          <form onSubmit={handleSubmit} className={styles.income__form}>
-            <CustomButton
-              children="Add New"
-              icon={<FaPlus />}
-              htmlType="submit"
+          <div className={styles.income__header_left}>
+            <h2>Income list</h2>
+            <Select
+              showSearch
+              defaultValue={years[years.length - 1]}
+              style={{ width: 80 }}
+              optionFilterProp="children"
+              filterOption={(input, option) =>
+                (option?.label ?? "").includes(input)
+              }
+              options={years.map((year) => ({
+                label: year,
+                value: year,
+              }))}
+              onChange={(e) => handleYearChange(e)}
             />
-          </form>
-          <Form
-            form={form}
-            name="basic"
-            labelCol={{ span: 8 }}
-            wrapperCol={{ span: 16 }}
-            style={{
-              maxWidth: 600,
-            }}
-            initialValues={{ remember: true }}
-            onValuesChange={(e) => handleSearch(e.search)}
-            autoComplete="off"
-            className={styles.income__antd_form}
-          >
-            <CustomInput
-              icon={<FiSearch />}
-              type="text"
-              placeholder="Search by categories"
-              className={styles.income__input}
-              name="search"
-              required={false}
-            />
-          </Form>
+          </div>
+          <div className={styles.income__header_right}>
+            <form onSubmit={handleSubmit} className={styles.income__form}>
+              <CustomButton
+                children="Add New"
+                icon={<FaPlus />}
+                htmlType="submit"
+              />
+            </form>
+            <Form
+              form={form}
+              name="basic"
+              labelCol={{ span: 8 }}
+              wrapperCol={{ span: 16 }}
+              style={{
+                maxWidth: 600,
+              }}
+              initialValues={{ remember: true }}
+              onValuesChange={(e) => handleSearch(e.search)}
+              autoComplete="off"
+              className={styles.income__antd_form}
+            >
+              <CustomInput
+                icon={<FiSearch />}
+                type="text"
+                placeholder="Search by categories"
+                className={styles.income__input}
+                name="search"
+                required={false}
+              />
+            </Form>
+          </div>
         </div>
         <div>
           <Table

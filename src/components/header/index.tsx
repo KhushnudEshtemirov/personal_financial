@@ -1,21 +1,32 @@
 import { useContext } from "react";
-import styles from "./header.module.scss";
-
 import { BsMoon, BsBell } from "react-icons/bs";
+import { IoMdMenu } from "react-icons/io";
+
+import styles from "./header.module.scss";
 import { CreateAuthContext } from "../../context/AuthContext";
 
-const Header = () => {
+interface PropsType {
+  setIsShowSidebar: (val: boolean) => void;
+}
+
+const Header = ({ setIsShowSidebar }: PropsType) => {
   const { loggedUser } = useContext(CreateAuthContext);
 
   return (
     <div className={styles.header}>
-      <h2>Hello {loggedUser.user?.name} 👋,</h2>
+      <div
+        className={styles.header__sidebar_menu}
+        onClick={() => setIsShowSidebar(true)}
+      >
+        <IoMdMenu />
+      </div>
+      <h2>Hello {loggedUser.user?.name.split(" ")[0]} 👋,</h2>
       <div className={styles.header__right}>
         <ul>
-          <li>
+          <li className={styles.header__change_theme}>
             <BsMoon />
           </li>
-          <li>
+          <li className={styles.header__notification}>
             <BsBell />
           </li>
         </ul>

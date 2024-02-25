@@ -22,6 +22,18 @@
     }
   }
 
+  &__header_left {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+  }
+
+  &__header_right {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+  }
+
   &__form {
     margin-left: auto;
   }
@@ -31,6 +43,40 @@
       width: 200px !important;
       margin: 0 !important;
       padding: 0 !important;
+    }
+  }
+}
+
+@media (max-width: 770px) {
+  .income {
+    &__header {
+      flex-direction: column;
+      align-items: flex-start;
+
+      h2 {
+        font-size: 20px;
+      }
+    }
+
+    &__header_right {
+      width: 100%;
+      align-items: flex-end;
+    }
+
+    &__antd_form {
+      div {
+        width: 150px !important;
+      }
+    }
+  }
+}
+
+@media (max-width: 382px) {
+  .income {
+    &__antd_form {
+      div {
+        width: 120px !important;
+      }
     }
   }
 }
