@@ -96,13 +96,13 @@ const Home = () => {
     mutate: mutateIncome,
   } = useGetAllData(setIncomeData);
 
-  const getExpensesData = async () => {
+  const getExpensesData = () => {
     if (userId) {
       mutate({ url: "expenses", userId });
     }
   };
 
-  const getIncomeData = async () => {
+  const getIncomeData = () => {
     if (userId) {
       mutateIncome({ url: "income", userId });
     }
