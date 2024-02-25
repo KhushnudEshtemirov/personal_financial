@@ -9,6 +9,7 @@ import { CreateAuthContext } from "../../context/AuthContext";
 import { DataType } from "../../interfaces";
 import { toast } from "react-toastify";
 import { useGetAllData } from "../../hooks/useMutationData";
+import Spinner from "../../components/spinner";
 
 const calculateColorPercentage = (
   totalExpense: number,
@@ -151,7 +152,7 @@ const Home = () => {
   });
 
   if (isLoading || isLoadingIncome) {
-    return <h2 className="loading">Loading...</h2>;
+    return <Spinner />;
   }
 
   if (isError || isErrorIncome) {
@@ -242,7 +243,7 @@ const Home = () => {
                   }`}
                   key={index}
                 >
-                  <div className={styles.home__percent}>${item.amount}</div>
+                  <div className={styles.home__percent}>{item.amount}</div>
                   <div
                     className={styles.home__outer_div}
                     style={{
